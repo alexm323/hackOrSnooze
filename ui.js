@@ -30,10 +30,12 @@ $(async function () { // TRYING TO GET THE UI PROFILE TO GET HIDDEN BEFORE I MOV
 	//***************************************************************************************** */
 	$submitStoryBtn.on('click', async function () {
 		$('#submit-form').slideToggle();
+
 	});
 	$submitForm.on('submit', async function (evt) {
 		//prevent refresh on submission
 		evt.preventDefault();
+
 		//getting the information from the form using jquery selectors
 		let author = $('#author').val();
 		let title = $('#title').val();

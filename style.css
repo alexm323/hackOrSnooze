@@ -1,9 +1,12 @@
 html {
   font-family: Arimo, sans-serif;
+
 }
 
 body {
   margin: 8px 7.5vw;
+  background-color: #222831;
+
 
 }
 
@@ -42,7 +45,7 @@ a:hover {
 
 nav {
   display: flex;
-  background-color: #ff6600;
+  background-color: #32e0c4;
   align-items: center;
 
   padding: 5px 20px;
@@ -67,7 +70,7 @@ nav {
   display: flex;
   flex-direction: column;
   align-self: center;
-  background-color: #f6f6ef;
+  background-color: #eeeeee;
 }
 
 form {
@@ -141,6 +144,7 @@ form>hr {
 
 .articles-list {
   margin: 20px 5px;
+  background-color: #393e46;
 }
 
 .articles-list>li {
@@ -167,23 +171,29 @@ form>hr {
 }
 
 .article-link>strong {
-  color: black;
+  color: #eeeeee;
   font-size: 0.85rem;
   font-weight: normal;
   margin: 18px 0;
 }
 
 .article-link:hover {
-  text-decoration: none;
+  /* text-decoration: none; */
+  color: #32e0c4;
+
 }
 
 .article-hostname:hover {
   text-decoration: underline;
+
+
 }
 
 .article-author {
   margin-top: 5px;
   margin-left: 25px;
+  color: #32e0c4;
+
 }
 
 .article-username {
@@ -240,10 +250,25 @@ form>hr {
 }
 
 .fas.fa-heart {
-  color: hotpink;
+  color: #32e0c4;
 
 }
 
 .deleteBtn {
   padding-right: 3px;
+}
+
+.deleteBtn:hover {
+  color: red;
+
+}
+
+li {
+  /* background-color: red; */
+  border-bottom: #eeeeee;
+
+}
+
+article {
+  background-color: #393e46;
 }
