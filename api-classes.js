@@ -19,19 +19,17 @@ class StoryList {
 	 *  - returns the StoryList instance.*
 	 */
 
-	// TODO: Note the presence of `static` keyword: this indicates that getStories
-	// is **not** an instance method. Rather, it is a method that is called on the
-	// class directly. Why doesn't it make sense for getStories to be an instance method?
-
 	static async getStories() {
 		// query the /stories endpoint (no auth required)
 		const response = await axios.get(`${BASE_URL}/stories`);
 
 		// turn the plain old story objects from the API into instances of the Story class
 		const stories = response.data.stories.map((story) => new Story(story));
+		// console.log(stories)//testing purposes checks to make sure we get back an array of objects (story instances)
 
 		// build an instance of our own class using the new array of stories
 		const storyList = new StoryList(stories);
+
 		return storyList;
 	}
 
@@ -70,7 +68,7 @@ class StoryList {
 			}
 		});
 
-		// filter out the story whose ID we are removing we want to just get back an array of LIs we can append to our stories list
+		// filter out the story with the ID that are removing , get back an array of LIs we can append to our stories list
 		this.stories = this.stories.filter((story) => story.storyId !== storyId);
 
 		// do the same thing for the user's list of stories
@@ -257,31 +255,3 @@ class Story {
 		this.updatedAt = storyObj.updatedAt;
 	}
 }
-
-// static async getStories() {
-//   // query the /stories endpoint (no auth required)
-//   const response = await axios.get(`${BASE_URL}/stories`);
-
-//   // turn the plain old story objects from the API into instances of the Story class
-//   const stories = response.data.stories.map(story => new Story(story));
-
-//   // build an instance of our own class using the new array of stories
-//   const storyList = new StoryList(stories);
-//   return storyList;
-// }
-
-// StoryList.getStories()
-
-// const red = new Storylist
-
-// red.getStories()
-// blue.getStories()
-
-// function() {
-
-// }
-
-// import StoryList
-// StoryList.getStories()
-
-//Static functions exist to be called outside of the Class when you want the same functionality for multiple users. In this case you want all users to populate the same list and be able to do multiple things like create a user,login,logout,etc. without

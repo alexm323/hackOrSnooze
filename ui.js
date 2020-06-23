@@ -8,15 +8,10 @@ $(async function () { // TRYING TO GET THE UI PROFILE TO GET HIDDEN BEFORE I MOV
 	const $ownStories = $('#my-articles');
 	const $navLogin = $('#nav-login');
 	const $navLogOut = $('#nav-logout');
-	//Select the submit story button to slide toggle the hidden form for creating a story
 	const $submitStoryBtn = $('#submitStoryBtn');
 	const $userProfile = $('#user-profile')
-	const $profileName = $('#profile-name');
-	const $profileUsername = $('#profile-username');
-	const $profileCreateDate = $('#profile-account-date');
 	const $favoriteStories = $('#favorited-articles')
 	const $deleteButton = $('.deleteBtn')
-
 	const $myStoryBtn = $('#myStoryButton')
 
 	// global storyList variable
@@ -32,6 +27,7 @@ $(async function () { // TRYING TO GET THE UI PROFILE TO GET HIDDEN BEFORE I MOV
 		$('#submit-form').slideToggle();
 
 	});
+	//When the user submits a story
 	$submitForm.on('submit', async function (evt) {
 		//prevent refresh on submission
 		evt.preventDefault();
@@ -40,6 +36,7 @@ $(async function () { // TRYING TO GET THE UI PROFILE TO GET HIDDEN BEFORE I MOV
 		let author = $('#author').val();
 		let title = $('#title').val();
 		let url = $('#url').val();
+		//let username be the instance of User with the data from username 
 		const username = currentUser.username;
 		//set the formStory to the story object that we submit as a parameter, makes it easier to test like this in case there is an error. 
 		const formStory = {
@@ -56,26 +53,30 @@ $(async function () { // TRYING TO GET THE UI PROFILE TO GET HIDDEN BEFORE I MOV
 		$(generateStoryHTML(storyObject).prependTo('#all-articles-list'));
 		//resets the form and hides it again
 		$('#submit-form').slideToggle().trigger('reset')
-		//we can now successfully submit forms with no issues
+		//we can now successfully submit forms with no issues, note that I still need to fix the needing to reload myStories 
 
 	});
 	/********************************************************************************************************** */
 	//this navigates to the favorites tab (hides the other elements and only shows the favorites 'tab')
 	$('#favoriteStoryBtn').on('click', function (e) {
+		//hide all elements
 		hideElements();
+		//show only the favorites tab
 		$favoriteStories.show()
 		//this is our callback that we make in this section to show the list of favorites that we are able to now save 
 		generateFavorites()
 
 	})
+	//put an event listner on all the list elements and listen for the context of anything with a class of heart 
 	$('.articles-container').on('click', '.heart', async function (e) {
+		//truthy if user is logged in 
 		if (currentUser) {
 			const $targetHeart = $(e.target)
-			console.log($targetHeart)
+			// console.log($targetHeart)
 			const $parentLI = $targetHeart.parent().parent()
-			console.log($parentLI)
+			// console.log($parentLI)
 			const storyID = $parentLI.attr("id")
-			console.log(storyID)
+			// console.log(storyID)
 
 			//checking if the target has  a full heart , fas is font awesome solid (full heart)
 			if ($targetHeart.hasClass('fas')) {
@@ -84,8 +85,8 @@ $(async function () { // TRYING TO GET THE UI PROFILE TO GET HIDDEN BEFORE I MOV
 				//alternate to the empty heart since we are removing it from our favorites list
 				$targetHeart.toggleClass('fas far')
 
-				console.log("we are making it to the if statement")
-				console.log(storyID)
+				// console.log("we are making it to the if statement")
+				// console.log(storyID)
 
 
 			} else {
@@ -113,13 +114,13 @@ $(async function () { // TRYING TO GET THE UI PROFILE TO GET HIDDEN BEFORE I MOV
 		//empty out the list so that we can generate the favorites list each time. 
 		$favoriteStories.empty()
 		//checking the data from the current user which we know because of the insomnia get request on the api for the users info
-		console.log(currentUser)
+		// console.log(currentUser)
 		if (currentUser.favorites.length === 0) {
 			//notify the user when they have no favorites in the list
 			$favoriteStories.append('<h5>You have no favorites</h5>')
 		} else {
 			for (let story of currentUser.favorites) {
-				let favoriteStoryHTML = generateStoryHTML(story, false, true)
+				let favoriteStoryHTML = generateStoryHTML(story)
 				$favoriteStories.append(favoriteStoryHTML)
 			}
 
@@ -152,14 +153,14 @@ $(async function () { // TRYING TO GET THE UI PROFILE TO GET HIDDEN BEFORE I MOV
 	function generateMyStories() {
 		//empty out the list so that we can generate the favorites list each time. 
 		$ownStories.empty()
-		console.log(`right above error ${currentUser.ownStories}`)
+
 		//checking the data from the current user which we know because of the insomnia get request on the api for the users info
 		if (currentUser.ownStories.length === 0) {
 			//notify the user when they have no favorites in the list
 			$ownStories.append('<h5>You have no stories</h5>')
 		} else {
 			for (let story of currentUser.ownStories) {
-				let myStoryHTML = generateStoryHTML(story, true)
+				let myStoryHTML = generateStoryHTML(story)
 				$ownStories.append(myStoryHTML)
 			}
 
@@ -172,7 +173,7 @@ $(async function () { // TRYING TO GET THE UI PROFILE TO GET HIDDEN BEFORE I MOV
 
 		let closestLI = $(e.target).closest('li')
 		let storyID = closestLI.attr('id')
-		console.log(storyID)
+		// console.log(storyID)
 
 		await storyList.removeStory(currentUser, storyID);
 
