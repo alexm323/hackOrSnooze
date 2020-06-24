@@ -170,16 +170,21 @@ $(async function () { // TRYING TO GET THE UI PROFILE TO GET HIDDEN BEFORE I MOV
 	}
 	//deleting a story
 	$ownStories.on('click', '.deleteBtn', async function (e) {
+		//brings up a prompt for the user to confirm
+		if (window.confirm("Do you really want to delete?")) {
+			let closestLI = $(e.target).closest('li')
+			let storyID = closestLI.attr('id')
+			// console.log(storyID)
+			await storyList.removeStory(currentUser, storyID);
 
-		let closestLI = $(e.target).closest('li')
-		let storyID = closestLI.attr('id')
-		// console.log(storyID)
+			// showing new DOM
+			await generateStories()
+			hideElements()
+			$allStoriesList.show()
 
-		await storyList.removeStory(currentUser, storyID);
+		}
+		//deletion
 
-		await generateStories()
-		hideElements()
-		$allStoriesList.show()
 	})
 
 
